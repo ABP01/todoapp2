@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class AddTodo extends StatefulWidget {
-  const AddTodo({super.key});
+  final VoidCallback changeText;
+
+  AddTodo({super.key, required this.changeText});
 
   @override
   State<AddTodo> createState() => _AddTodoState();
 }
 
 class _AddTodoState extends State<AddTodo> {
-  TextEditingController todoText = TextEditingController();
+  final TextEditingController todoText = TextEditingController();
+
+  @override
+  void dispose() {
+    todoText.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +32,13 @@ class _AddTodoState extends State<AddTodo> {
           ),
         ),
         ElevatedButton(
-            onPressed: () {
-              print(todoText.text);
-              todoText.text = "";
-            },
-            child: Text("Add"))
+          onPressed: () {
+            print(todoText.text);
+            todoText.clear();
+            widget.changeText();
+          },
+          child: Text("Add"),
+        ),
       ],
     );
   }

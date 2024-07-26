@@ -9,37 +9,43 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  String _text = "Simple Text";
+
+  void _changeText() {
+    setState(() {
+      _text = "Hello World";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
+      drawer: const Drawer(
         child: Text("Drawer data"),
       ),
       appBar: AppBar(
-        title: Text("Todo App"),
+        title: const Text("Todo App"),
         centerTitle: true,
         actions: [
-          InkWell(
-            onTap: () {
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
               showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return Container(
-                      padding: EdgeInsets.all(20),
-                      height: 200,
-                      child: AddTodo(),
-                    );
-                  });
+                context: context,
+                builder: (context) {
+                  return Container(
+                    padding: const EdgeInsets.all(20),
+                    height: 200,
+                    child: AddTodo(changeText: _changeText),
+                  );
+                },
+              );
             },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.add),
-            ),
-          )
+          ),
         ],
       ),
-      body: Container(
-        child: Text("Simple text"),
+      body: Center(
+        child: Text(_text),
       ),
     );
   }
